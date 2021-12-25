@@ -1,0 +1,26 @@
+
+class Solution {
+    public int maxSubArray1(int[] nums) {
+        int max = Integer.MIN_VALUE;
+        int currentSum = 0;
+
+        for (int n : nums) {
+            currentSum = Math.max(currentSum + n, n);
+            max = Math.max(max, currentSum);
+        }
+        return max;
+    }
+
+    public int maxSubArray2(int[] nums) {
+        int max = Integer.MIN_VALUE;
+        int currentSum = 0;
+
+        for (int n : nums) {
+            currentSum += n;
+            
+            if (currentSum > max) max = currentSum;
+            if (currentSum < 0) currentSum = 0;
+        }
+        return max;
+    }
+}
