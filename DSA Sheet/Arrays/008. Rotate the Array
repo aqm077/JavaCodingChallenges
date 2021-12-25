@@ -1,0 +1,36 @@
+class Solution {
+    public void rotate1(int[] nums, int k) {
+        k = k % nums.length; // if k > nums.length
+        reverse(nums, 0, nums.length - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, nums.length - 1);
+    }
+
+    private void reverse(int[] nums, int low, int high) {
+        while (low < high) {
+            int temp = nums[low];
+            nums[low++] = nums[high];
+            nums[high--] = temp;
+        }
+    }
+
+    public void rotate2(int[] nums, int k) {
+        if (k > nums.length)
+            k = k % nums.length;
+
+        int[] array1 = new int[nums.length - k];
+        int[] array2 = new int[k];
+
+        int index = 0;
+        for (int i = 0; i < array1.length; i++)
+            array1[i] = nums[index++];
+        for (int j = 0; j < array2.length; j++)
+            array2[j] = nums[index++];
+
+        index = 0;
+        for (int n : array2)
+            nums[index++] = n;
+        for (int n : array1)
+            nums[index++] = n;
+    }
+}
