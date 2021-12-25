@@ -1,0 +1,57 @@
+class Solution {
+    public int[] intersection1(int[] nums1, int[] nums2) {
+        Set<Integer> set = new HashSet();
+
+        for (int n : nums1)
+            set.add(n);
+
+        int[] result = new int[set.size()];
+        int i = 0;
+
+        for (int n : nums2)
+            if (set.remove(n))
+                result[i++] = n;
+
+        return Arrays.copyOfRange(result, 0, i);
+    }
+
+    public int[] intersection2(int[] nums1, int[] nums2) {
+        int[] count = new int[1001];
+        int[] result = new int[1001];
+
+        int i = 0;
+        for (int n : nums1)
+            if (count[n] == 0)
+                count[n]++;
+
+        for (int n : nums2)
+            if (count[n] == 1) {
+                result[i++] = n;
+                count[n]--;
+            }
+
+        return Arrays.copyOfRange(result, 0, i);
+    }
+
+    public int[] intersection3(int[] nums1, int[] nums2) {
+        HashSet<Integer> nums = new HashSet<>();
+        HashSet<Integer> result = new HashSet<>();
+
+        for (int x : nums1)
+            nums.add(x);
+
+        for (int x : nums2) {
+            if (nums.contains(x))
+                result.add(x);
+        }
+
+        int[] res = new int[result.size()];
+        Iterator<Integer> itr = result.iterator();
+        int i = 0;
+
+        while (itr.hasNext())
+            res[i++] = itr.next();
+
+        return res;
+    }
+}
