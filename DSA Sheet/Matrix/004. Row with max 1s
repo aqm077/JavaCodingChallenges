@@ -1,0 +1,51 @@
+class Solution {
+    int rowWithMax1s1(int arr[][], int n, int m) {
+        int row = 0;
+        int oMax = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            int count = binarySearchOnes(arr, i);
+
+            if (count > oMax) {
+                oMax = count;
+                row = i;
+            }
+        }
+
+        return (row == 0 && oMax == 0) ? -1 : row;
+    }
+
+    int binarySearchOnes(int[][] arr, int r) {
+        int low = 0;
+        int high = arr[0].length - 1;
+        int fi1 = arr[0].length; // First Index of 1
+
+        while (low <= high) {
+            int mid = (low + high) >> 1;
+
+            if (arr[r][mid] == 1) {
+                fi1 = mid;
+                high = mid - 1;
+            } else
+                low = mid + 1;
+        }
+
+        return arr[0].length - fi1;
+    }
+
+    int rowWithMax1s2(int arr[][], int n, int m) {
+        int row = 0;
+        int col = arr[0].length - 1;
+        int res = 0;
+
+        while (row < arr.length && col >= 0) {
+            if (arr[row][col] == 1) {
+                res = row;
+                col--;
+            } else
+                row++;
+        }
+
+        return (res == 0 && col == arr[0].length - 1) ? -1 : res;
+    }
+}
