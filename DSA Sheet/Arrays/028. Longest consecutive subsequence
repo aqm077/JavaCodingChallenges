@@ -1,0 +1,49 @@
+class Solution {
+    public int longestConsecutive1(int[] nums) {
+        HashSet<Integer> set = new HashSet<Integer>();
+        for (int n : nums)
+            set.add(n);
+
+        int longestStreak = 0;
+        for (int n : nums) {
+            if (!set.contains(n - 1)) {
+                int currentNum = n;
+                int currentStreak = 0;
+
+                while (set.contains(currentNum)) {
+                    currentNum += 1;
+                    currentStreak += 1;
+                }
+                longestStreak = Math.max(longestStreak, currentStreak);
+            }
+        }
+
+        return longestStreak;
+    }
+
+    public int longestConsecutive2(int[] nums) {
+        HashSet<Integer> set = new HashSet<Integer>();
+        for (int n : nums)
+            set.add(n);
+
+        int longestStreak = 0;
+        for (int n : nums) {
+            if (set.remove(n)) {
+                int val = n;
+                int currentStreak = 1;
+
+                while (set.remove(val - 1)) val--;
+                currentStreak += n - val;
+
+                val = n;
+
+                while (set.remove(val + 1)) val++;
+                currentStreak += val - n;
+
+                longestStreak = Math.max(longestStreak, currentStreak);
+            }
+        }
+
+        return longestStreak;
+    }
+}

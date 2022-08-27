@@ -1,0 +1,41 @@
+class Solution {
+    public static void printDups1(String str) {
+        int count[] = new int[256];
+
+        for (int i = 0; i < str.length(); i++)
+            count[str.charAt(i)]++;
+
+        for (int i = 0; i < 256; i++)
+            if (count[i] > 1)
+                System.out.println((char) (i) + ", count = " + count[i]);
+    }
+
+    public static void printDups2(String str) {
+        HashMap<Character, Integer> count = new HashMap<>();
+        for (int i = 0; i < str.length(); i++)
+            count.put(str.charAt(i), count.getOrDefault(str.charAt(i), 0) + 1);
+
+        for (Map.Entry mapElement : count.entrySet()) {
+            char key = (char) mapElement.getKey();
+            int value = ((int) mapElement.getValue());
+
+            if (value > 1)
+                System.out.println(key + ", count = " + value);
+        }
+    }
+
+    public static void main(String[] args) {
+        String str = "Hello World";
+        printDups1(str);
+    }
+}
+
+/*
+ * 
+ * TC1: O(n) where, n == str.length;
+ * SC1: O(256);
+ * 
+ * TC2: O(nlogn) where, n == str.length;
+ * SC2: O(k) where k == each unique character in str
+ * 
+ */

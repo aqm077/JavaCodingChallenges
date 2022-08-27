@@ -1,0 +1,35 @@
+class Solution {
+    // Function to check whether there is a subarray present with 0-sum or not.
+    static boolean findsum1(int arr[], int n) {    // O(N)
+        Set<Integer> check = new HashSet<>();
+        check.add(arr[0]);
+
+        int i = 1;
+        while (i < n) {
+            arr[i] += arr[i - 1];
+            if (arr[i] == 0)
+                return true;
+            if (!check.add(arr[i]))
+                return true;
+            i++;
+        }
+
+        return false;
+    }
+
+    // Function to check whether there is a subarray present with 0-sum or not.
+    static boolean findsum2(int arr[], int n) {     // O(N2)
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum = 0;
+            for (int j = i; j < n; j++) {
+                sum += arr[j];
+                if (sum == 0)
+                    break;
+            }
+            if (sum == 0)
+                break;
+        }
+        return sum == 0;
+    }
+}

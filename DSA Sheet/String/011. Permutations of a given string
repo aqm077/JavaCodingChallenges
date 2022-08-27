@@ -1,0 +1,97 @@
+class Solution {
+    public List<String> find_permutation1(String s) {
+        List<String> res = new ArrayList<>();
+        char[] str = s.toCharArray();
+
+        permute(str, 0, s.length() - 1, res);
+
+        Collections.sort(res);
+
+        return res;
+
+    }
+
+    private void permute(char[] str, int l, int r, List<String> res) {
+        if (l == r) {
+            res.add(new String(str));
+            return;
+        }
+
+        for (int i = l; i <= r; i++) {
+            swap(str, l, i);
+            permute(str, l + 1, r, res);
+            swap(str, l, i);
+        }
+    }
+
+    private void swap(char[] str, int start, int end) {
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+    }
+    /*
+     * TC: O(n! * n + nlogn)
+     * SC: O(s.length())
+     */
+
+
+
+    public List<String> find_permutation2(String S) {
+        List<String> res = new ArrayList<>();
+
+        permute(S, res, "");
+
+        Collections.sort(res);
+        return res;
+    }
+
+    private void permute(String s, List<String> res, String ans) {
+        if (s.length() == 0) {
+            res.add(ans);
+            return;
+        }
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+            permute(s.substring(0, i) + s.substring(i + 1), res, ans + ch);
+            // char at i is removed from the string and added to the output permutation
+        }
+    }
+    /*
+     * TC: O(n! * n + nlogn)
+     * SC: O(1)
+     */
+
+
+
+    public List<String> find_permutation(String S) {
+        List<String> res = new ArrayList<>();
+        StringBuilder ds = new StringBuilder();
+        boolean[] freq = new boolean[256];
+
+        recurPermute(ds, S, res, freq);
+        Collections.sort(res);
+        return res;
+    }
+
+    public void recurPermute(StringBuilder ds, String s, List<String> res, boolean[] freq) {
+        if (ds.length() == s.length()) {
+            res.add(ds.toString());
+        }
+
+        for (int i = 0; i < s.length(); i++) {
+            if (!freq[(int) s.charAt(i)]) {
+                ds.append(s.charAt(i));
+                freq[(int) s.charAt(i)] = true;
+                recurPermute(ds, s, res, freq);
+                freq[(int) s.charAt(i)] = false;
+                ds.delete(ds.length() - 1, ds.length());
+            }
+        }
+    }
+    /*
+     * TC: O(n! * n + nlogn)
+     * SC: O(n + 256)
+     */
+}

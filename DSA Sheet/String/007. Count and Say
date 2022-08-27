@@ -1,0 +1,59 @@
+class Solution {
+    public String countAndSay(int n) {
+        String s = "1";
+
+        for (int i = 1; i < n; i++) {
+            s = countIdx(s);
+        }
+
+        return s;
+    }
+
+    public String countIdx(String s) {
+        StringBuilder result = new StringBuilder();
+        int count = 1;
+        char c = s.charAt(0);
+
+        for (int i = 1; i < s.length(); i++) {
+            if (c == s.charAt(i))
+                count++;
+            else {
+                result.append(count);
+                result.append(c);
+                c = s.charAt(i);
+                count = 1;
+            }
+        }
+        result.append(count);
+        result.append(c);
+
+        return result.toString();
+    }
+
+    public String countAndSay2(int n) {
+        if (n == 1)
+            return "1";
+
+        String s = "1";
+
+        for (int i = 2; i <= n; i++) {
+
+            s += "$"; // $ -> denotes the end of string
+            String result = new String();
+            int count = 1;
+
+            for (int j = 1; j < s.length(); j++) {
+                if (s.charAt(j - 1) != s.charAt(j)) {
+                    result += count;
+                    result += s.charAt(j - 1);
+                    count = 1;
+                } else
+                    count++;
+            }
+
+            s = result;
+        }
+
+        return s;
+    }
+}

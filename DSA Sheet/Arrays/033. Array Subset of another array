@@ -1,0 +1,13 @@
+class Solution {
+    public String isSubset(long a1[], long a2[], long n, long m) {
+        HashSet<Long> set = new HashSet<>();
+
+        for (long a : a1)set.add(a);
+
+        for (long a : a2)
+            if (!set.remove(a))
+                return "No";
+
+        return "Yes";
+    }
+}

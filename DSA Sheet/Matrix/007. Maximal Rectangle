@@ -1,0 +1,83 @@
+class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        if (rows == 0 || cols == 0)
+            return 0;
+
+        int[] dp = new int[cols];
+
+        int maxArea = 0;
+        for (int i = 0; i < rows; i++) {
+
+            for (int j = 0; j < cols; j++) {
+                dp[j] = matrix[i][j] == '1' ? dp[j] + 1 : 0;
+            }
+
+            maxArea = Math.max(maxArea, findMaxAreaInHistogram2(dp));
+        }
+
+        return maxArea;
+    }
+
+    public int findMaxAreaInHistogram(int[] heights) {
+        int cols = heights.length; // Length of each row
+        int[] left = new int[cols];
+        int[] right = new int[cols];
+        int maxArea = 0;
+
+        Deque<Integer> stack = new ArrayDeque<>();
+
+        for (int i = 0; i < cols; i++) {
+            if (stack.isEmpty()) {
+                stack.push(i);
+                left[0] = 0;
+            } else {
+                while (!stack.isEmpty() && heights[stack.peek()] >= heights[i])
+                    stack.pop();
+                left[i] = stack.isEmpty() ? 0 : stack.peek() + 1;
+                stack.push(i);
+            }
+        }
+
+        stack.clear();
+
+        for (int i = cols - 1; i >= 0; i--) {
+            if (stack.isEmpty()) {
+                stack.push(cols - 1);
+                right[i] = cols - 1;
+            } else {
+                while (!stack.isEmpty() && heights[stack.peek()] >= heights[i])
+                    stack.pop();
+                right[i] = stack.isEmpty() ? cols - 1 : stack.peek() - 1;
+                stack.push(i);
+            }
+        }
+
+        for (int i = 0; i < cols; i++) {
+            maxArea = Math.max(maxArea, (right[i] - left[i] + 1) * heights[i]);
+        }
+
+        return maxArea;
+    }
+
+    public int findMaxAreaInHistogram2(int[] heights) {
+        int n = heights.length;
+        int maxArea = 0;
+        Deque<Integer> stack = new ArrayDeque<Integer>();
+
+        for (int i = 0; i <= n; i++) {
+            while (!stack.isEmpty() && (i == n || heights[stack.peek()] >= heights[i])) {
+                int height = heights[stack.pop()];
+                int width;
+                if (stack.isEmpty())
+                    width = i;
+                else
+                    width = i - stack.peek() - 1;
+                maxArea = Math.max(maxArea, (height * width));
+            }
+            stack.push(i);
+        }
+        return maxArea;
+    }
+}
